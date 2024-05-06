@@ -30,7 +30,7 @@ private:
     std::string sender;
     std::string addressee;
     std::string cargoDescription;
-    double weight;
+    double weight; // Weight in tons
 };
 
 #endif // CONTAINER_H
