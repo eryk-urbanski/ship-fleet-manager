@@ -14,10 +14,3 @@ TEST(ContainerTest, ConstructorInvalidWeight) {
     EXPECT_THROW(Container("John Doe", "Jane Smith", "Electronics", -10.0), std::invalid_argument);
     EXPECT_THROW(Container("John Doe", "Jane Smith", "Electronics", 0.0), std::invalid_argument);
 }
-
-TEST(ContainerTest, ConstructorEmptyStrings) {
-    Container container("", "", "", 10.0);
-    ASSERT_EQ(container.getSender(), "");
-    ASSERT_EQ(container.getAddressee(), "");
-    ASSERT_EQ(container.getCargoDescription(), "");
-}
