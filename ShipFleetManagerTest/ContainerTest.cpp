@@ -10,6 +10,7 @@ TEST(ContainerTest, ConstructorValidInput) {
     ASSERT_DOUBLE_EQ(container.getWeight(), 10.0);
 }
 
+// Test Case 2: Invalid Weight
 TEST(ContainerTest, ConstructorInvalidWeight) {
     EXPECT_THROW(Container("John Doe", "Jane Smith", "Electronics", -10.0), std::invalid_argument);
     EXPECT_THROW(Container("John Doe", "Jane Smith", "Electronics", 0.0), std::invalid_argument);
