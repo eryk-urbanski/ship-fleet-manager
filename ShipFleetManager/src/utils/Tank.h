@@ -16,6 +16,17 @@ public:
 		}
 	}
 
+	// Set current volume
+	void setCurrentVolume(double volume) {
+		if (volume < 0) {
+			throw std::invalid_argument("Volume must not be negative");
+		}
+		if (volume > capacity) {
+			throw std::invalid_argument("Volume exceeds tank capacity");
+		}
+		currentVolume = volume;
+	}
+
 	// Getters
 	double getCapacity() const { return capacity; }
 	double getCurrentVolume() const { return currentVolume; }
