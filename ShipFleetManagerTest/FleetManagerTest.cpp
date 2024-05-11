@@ -124,3 +124,33 @@ TEST(FleetManagerTest, LoadExceedingMaxWeight) {
     shipowner.handleCommand(tokens);
     EXPECT_THROW(shipowner.handleCommand({ "load", "IMO", "1234567", "Sender", "Receiver", "Heavy Stuff", "200000.0" }), std::invalid_argument);
 }
+
+//////////////////
+// UnloadContainer
+
+// Test Case 14: Unload Valid Container
+TEST(FleetManagerTest, UnloadValidContainer) {
+    FleetManager shipowner;
+    std::vector<std::string> tokens = { "add", "IMO", "9321483", "Emma Maersk", "397.0", "56.0", "ContainerShip", "15000", "156907.0" };
+    shipowner.handleCommand(tokens);
+    shipowner.handleCommand({ "load", "IMO", "9321483", "Sender", "Receiver", "Electronics", "1000" });
+
+    EXPECT_NO_THROW(shipowner.handleCommand({ "unload", "IMO", "9321483", "1" }));
+    auto ship = dynamic_cast<ContainerShip*>(shipowner.findShipByIMO("IMO 9321483"));
+    ASSERT_NE(ship, nullptr);
+    EXPECT_EQ(ship->getContainers().size(), 0);
+}
+
+// Test Case 15: Ship Not Found
+TEST(FleetManagerTest, UnloadShipNotFound) {
+    FleetManager shipowner;
+    EXPECT_THROW(shipowner.handleCommand({ "unload", "IMO", "9321483", "1" }), std::invalid_argument);
+}
+
+// Test Case 16: Container Not Found
+TEST(FleetManagerTest, ContainerNotFound) {
+    FleetManager shipowner;
+    std::vector<std::string> tokens = { "add", "IMO", "9321483", "Emma Maersk", "397.0", "56.0", "ContainerShip", "15000", "156907.0" };
+    shipowner.handleCommand(tokens);
+    EXPECT_THROW(shipowner.handleCommand({ "unload", "IMO", "1234567", "3" }), std::invalid_argument);
+}

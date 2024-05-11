@@ -213,6 +213,38 @@ void FleetManager::loadContainer(const std::vector<std::string>& tokens)
 
 void FleetManager::unloadContainer(const std::vector<std::string>& tokens)
 {
+    // Expecting 4 tokens: command, "IMO", IMO7digitnumber, containerID
+    if (tokens.size() != 4) {
+        throw std::invalid_argument("Invalid number of arguments for unloading a container.");
+    }
+
+    const std::string& imoPrefix = tokens[1];
+    const std::string& imoNumber = tokens[2];
+    if (imoPrefix != "IMO" || imoNumber.length() != 7) {
+        throw std::invalid_argument("Invalid IMO number format.");
+    }
+
+    std::string imo = imoPrefix + " " + imoNumber;
+
+    Ship* ship = findShipByIMO(imo);
+    if (!ship) {
+        throw std::invalid_argument("No ship found with the given IMO number.");
+    }
+
+    ContainerShip* containerShip = dynamic_cast<ContainerShip*>(ship);
+    if (!containerShip) {
+        throw std::invalid_argument("The ship with the given IMO number is not a container ship.");
+    }
+
+    int containerID;
+    try {
+        containerID = std::stoi(tokens[3]);
+    }
+    catch (const std::exception& e) {
+        throw std::invalid_argument("Container ID must be a numeric value.");
+    }
+
+    containerShip->unloadContainer(containerID);
 }
 
 void FleetManager::refuelTank(const std::vector<std::string>& tokens)
