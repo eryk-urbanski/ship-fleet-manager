@@ -142,6 +142,36 @@ void FleetManager::addShip(const std::vector<std::string>& tokens)
 
 void FleetManager::updatePosition(const std::vector<std::string>& tokens)
 {
+    if (tokens.size() != 5) {
+        throw std::invalid_argument("Invalid number of arguments for updating ship position.");
+    }
+
+    const std::string& imoPrefix = tokens[1];
+    const std::string& imoNumber = tokens[2];
+    if (imoPrefix != "IMO" || imoNumber.length() != 7) {
+        throw std::invalid_argument("Invalid IMO number format.");
+    }
+
+    std::string imo = imoPrefix + " " + imoNumber;
+
+    double latitude;
+    double longitude;
+    try {
+        latitude = std::stod(tokens[3]);
+        longitude = std::stod(tokens[4]);
+    }
+    catch (const std::invalid_argument& ia) {
+        throw std::invalid_argument("Latitude and longitude must be numeric");
+    }
+
+
+    Ship* ship = findShipByIMO(imo);
+    if (!ship) {
+        throw std::invalid_argument("No ship found with the given IMO number.");
+    }
+
+    ship->updatePosition({ latitude, longitude });
+    std::cout << "Updated ship " << imo << " to new position: " << latitude << ", " << longitude << std::endl;
 }
 
 void FleetManager::loadContainer(const std::vector<std::string>& tokens)
