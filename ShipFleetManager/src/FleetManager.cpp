@@ -176,6 +176,39 @@ void FleetManager::updatePosition(const std::vector<std::string>& tokens)
 
 void FleetManager::loadContainer(const std::vector<std::string>& tokens)
 {
+    // Expecting 7 tokens: command, "IMO", IMO7digitnumber, sender, addressee, description, weight
+    if (tokens.size() != 7) {
+        throw std::invalid_argument("Invalid number of arguments for loading a container.");
+    }
+
+    const std::string& imoPrefix = tokens[1];
+    const std::string& imoNumber = tokens[2];
+    if (imoPrefix != "IMO" || imoNumber.length() != 7) {
+        throw std::invalid_argument("Invalid IMO number format.");
+    }
+
+    std::string imo = imoPrefix + " " + imoNumber;
+
+    Ship* ship = findShipByIMO(imo);
+    if (!ship) {
+        throw std::invalid_argument("No ship found with the given IMO number.");
+    }
+
+    ContainerShip* containerShip = dynamic_cast<ContainerShip*>(ship);
+    if (!containerShip) {
+        throw std::invalid_argument("The ship with the given IMO number is not a container ship.");
+    }
+
+    double weight;
+    try {
+        weight = std::stod(tokens[6]);
+    }
+    catch (const std::exception& e) {
+        throw std::invalid_argument("Invalid weight value. Weight must be a numeric value.");
+    }
+
+    Container container(tokens[3], tokens[4], tokens[5], weight);
+    containerShip->loadContainer(container);
 }
 
 void FleetManager::unloadContainer(const std::vector<std::string>& tokens)
