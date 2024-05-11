@@ -29,6 +29,12 @@ int main() {
             continue;
         }
 
+        // Print the commands again if user asks for help
+        if (input == "fleet") {
+            shipowner.showFleet();
+            continue;
+        }
+
         // Split the input into tokens
         std::istringstream iss(input);
         std::vector<std::string> tokens{ std::istream_iterator<std::string>{iss}, std::istream_iterator<std::string>{} };

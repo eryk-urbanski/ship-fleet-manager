@@ -27,7 +27,8 @@ public:
 
     // Command interface method
     void handleCommand(const std::vector<std::string>& tokens);
-    void showHelp();
+    void showHelp() const;
+    void showFleet() const;
 
     Ship* findShipByIMO(const std::string& imo) const;
 
@@ -43,10 +44,6 @@ private:
     void unloadContainer(const std::vector<std::string>& tokens);
     void refuelTank(const std::vector<std::string>& tokens);
     void emptyTank(const std::vector<std::string>& tokens);
-
-    // Helper methods
-    //bool validateIMO(const std::string& imo) const;
-    //bool validateArguments(const std::vector<std::string>& tokens, size_t expectedArgCount) const;
 };
 
 #endif // FLEETMANAGER_H

@@ -41,7 +41,7 @@ void FleetManager::handleCommand(const std::vector<std::string>& tokens) {
     }
 }
 
-void FleetManager::showHelp()
+void FleetManager::showHelp() const
 {
     std::cout << "Available Commands:\n";
     std::cout << "  add <IMO> <IMO7digitnumber> <name> <length> <width> <type> <maxnumofcontainers> <maxtotalweight>\n";
@@ -58,6 +58,48 @@ void FleetManager::showHelp()
     std::cout << "      - Refuel a tank on a TankerShip, optionally specifying volume\n";
     std::cout << "  empty <IMO> <IMO7digitnumber> <tankIndex> [<volume>]\n";
     std::cout << "      - Empty a tank on a TankerShip, optionally specifying volume to remove\n";
+}
+
+void FleetManager::showFleet() const
+{
+    for (const auto& pair : fleet) {
+        const Ship* ship = pair.second;
+        std::cout << "Ship IMO: " << ship->getIMONumber() << ", Name: " << ship->getName()
+            << ", Length: " << ship->getLength() << "m, Width: " << ship->getWidth() << "m\n";
+
+        // Print position history
+        auto positions = ship->getPositionHistory();
+        std::cout << "Position History (Last 5): ";
+        for (int i = std::max(0, static_cast<int>(positions.size()) - 5); i < positions.size(); ++i) {
+            std::cout << "[" << positions[i].latitude << ", " << positions[i].longitude << "] ";
+        }
+        std::cout << "\n";
+
+        // Check if ship is a ContainerShip
+        if (const ContainerShip* cs = dynamic_cast<const ContainerShip*>(ship)) {
+            std::cout << "Max Containers: " << cs->getMaxContainers()
+                << ", Max Weight: " << cs->getMaxWeight() << " tons\n"
+                << "Containers Loaded:\n";
+            for (const auto& container : cs->getContainers()) {
+                std::cout << "  - Description: " << container.getCargoDescription()
+                    << ", Weight: " << container.getWeight() << "kg\n";
+            }
+        }
+
+        // Check if ship is a TankerShip
+        if (const TankerShip* ts = dynamic_cast<const TankerShip*>(ship)) {
+            std::cout << "Max Total Weight: " << ts->getMaxWeight() << " tons\n"
+                << "Current Weight: " << ts->getCurrentWeight() << " tons\n"
+                << "Tanks:\n";
+            for (const auto& tank : ts->getTanks()) {
+                std::cout << "  - Fuel Type: " << tank.getFuelType()
+                    << ", Capacity: " << tank.getCapacity() << " liters"
+                    << ", Current Volume: " << tank.getCurrentVolume() << " liters\n";
+            }
+        }
+
+        std::cout << std::endl;
+    }
 }
 
 void FleetManager::initializeCommands()
