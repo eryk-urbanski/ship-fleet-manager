@@ -6,15 +6,13 @@ FleetManager::FleetManager() {
 
 void FleetManager::handleCommand(const std::vector<std::string>& tokens) {
     if (tokens.empty()) {
-        std::cerr << "No command provided" << std::endl;
-        return;
+        throw std::invalid_argument("No command provided");
     }
 
     std::string command = tokens[0];
     auto it = commandMap.find(command);
     if (it == commandMap.end()) {
-        std::cerr << "Unknown command" << std::endl;
-        return;
+        throw std::invalid_argument("Unknown command");
     }
 
     CommandType commandType = it->second;
@@ -39,8 +37,7 @@ void FleetManager::handleCommand(const std::vector<std::string>& tokens) {
         emptyTank(tokens);
         break;
     default:
-        std::cerr << "Unknown command" << std::endl;
-        break;
+        throw std::invalid_argument("Unknown command");
     }
 }
 
@@ -76,21 +73,18 @@ void FleetManager::initializeCommands()
 void FleetManager::addShip(const std::vector<std::string>& tokens)
 {
     if (tokens.size() < 9) {
-        std::cerr << "Insufficient parameters to add a ship" << std::endl;
-        return;
+        throw std::invalid_argument("Insufficient parameters to add a ship");
     }
 
     std::string imoPrefix = tokens[1];
     std::string imoNumber = tokens[2];
     if (imoPrefix != "IMO" || imoNumber.length() != 7) {
-        std::cerr << "Invalid IMO number format" << std::endl;
-        return;
+        throw std::invalid_argument("Invalid IMO number format");
     }
     std::string imo = imoPrefix + " " + imoNumber;
 
     if (fleet.find(imo) != fleet.end()) {
-        std::cerr << "Ship with this IMO number already exists" << std::endl;
-        return;
+        throw std::invalid_argument("Ship with this IMO number already exists");
     }
 
     std::string name = tokens[3];
@@ -100,8 +94,7 @@ void FleetManager::addShip(const std::vector<std::string>& tokens)
 
     if (type == "ContainerShip") {
         if (tokens.size() != 9) {
-            std::cerr << "Invalid number of arguments for a ContainerShip" << std::endl;
-            return;
+            throw std::invalid_argument("Invalid number of arguments for a ContainerShip");
         }
         int maxContainers = std::stoi(tokens[7]);
         double maxWeight = std::stod(tokens[8]);
@@ -112,8 +105,7 @@ void FleetManager::addShip(const std::vector<std::string>& tokens)
     }
     else if (type == "TankerShip") {
         if (tokens.size() != 10) {
-            std::cerr << "Invalid number of arguments for a TankerShip" << std::endl;
-            return;
+            throw std::invalid_argument("Invalid number of arguments for a TankerShip");
         }
 
         int numDieselTanks = std::stoi(tokens[7]);
@@ -144,7 +136,7 @@ void FleetManager::addShip(const std::vector<std::string>& tokens)
         std::cout << "TankerShip added successfully" << std::endl;
     }
     else {
-        std::cerr << "Invalid ship type" << std::endl;
+        throw std::invalid_argument("Invalid ship type");
     }
 }
 
