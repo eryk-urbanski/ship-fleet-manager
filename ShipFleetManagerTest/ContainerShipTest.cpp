@@ -57,7 +57,7 @@ TEST(ContainerShipTest, ExceedMaxContainers) {
     Container container2("Sender2", "Receiver2", "Electronics", 1000.0);
 
     ship.loadContainer(container1);
-    ship.loadContainer(container2); // Should fail to load
+    EXPECT_THROW(ship.loadContainer(container2), std::invalid_argument); // Should fail to load
 
     EXPECT_EQ(ship.getContainers().size(), 1); // Only one should be loaded
     EXPECT_DOUBLE_EQ(ship.getCurrentWeight(), 1000.0);
@@ -73,7 +73,7 @@ TEST(ContainerShipTest, ExceedMaxWeight) {
     Container container2("Sender2", "Receiver2", "Electronics", 600.0);
 
     ship.loadContainer(container1);
-    ship.loadContainer(container2); // Should fail to load
+    EXPECT_THROW(ship.loadContainer(container2), std::invalid_argument); // Should fail to load
 
     EXPECT_EQ(ship.getContainers().size(), 1); // Only one should be loaded
     EXPECT_DOUBLE_EQ(ship.getCurrentWeight(), 1000.0);
@@ -105,13 +105,12 @@ TEST(ContainerShipTest, InvalidUnloadContainer) {
     ship.loadContainer(container);
 
     // Invalid ID: negative or zero
-    // No exception should be thrown as this case is handled with a std::cerr
-    EXPECT_NO_THROW(ship.unloadContainer(0));
+    EXPECT_THROW(ship.unloadContainer(0), std::invalid_argument);
     EXPECT_EQ(ship.getContainers().size(), 1);
-    EXPECT_NO_THROW(ship.unloadContainer(-1));
+    EXPECT_THROW(ship.unloadContainer(-1), std::invalid_argument);
     EXPECT_EQ(ship.getContainers().size(), 1);
 
     // Invalid ID: exceeding the total number of containers
-    EXPECT_NO_THROW(ship.unloadContainer(2));
+    EXPECT_THROW(ship.unloadContainer(2), std::invalid_argument);
     EXPECT_EQ(ship.getContainers().size(), 1);
 }
