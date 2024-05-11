@@ -288,6 +288,41 @@ void FleetManager::refuelTank(const std::vector<std::string>& tokens)
 
 void FleetManager::emptyTank(const std::vector<std::string>& tokens)
 {
+    // Expecting 4 or 5 tokens: command, "IMO", IMO7digitnumber, tankID, volume (optional)
+    if (tokens.size() != 4 && tokens.size() != 5) {
+        throw std::invalid_argument("Invalid number of arguments for emptying a tank");
+    }
+
+    const std::string& imoPrefix = tokens[1];
+    const std::string& imoNumber = tokens[2];
+    if (imoPrefix != "IMO" || imoNumber.length() != 7) {
+        throw std::invalid_argument("Invalid IMO number format");
+    }
+
+    std::string imo = imoPrefix + " " + imoNumber;
+
+    Ship* ship = findShipByIMO(imo);
+    if (!ship) {
+        throw std::invalid_argument("No ship found with the given IMO number");
+    }
+
+    TankerShip* tankerShip = dynamic_cast<TankerShip*>(ship);
+    if (!tankerShip) {
+        throw std::invalid_argument("The ship with the given IMO number is not a tanker ship");
+    }
+
+    int tankIndex = std::stoi(tokens[3]) - 1;
+    if (tankIndex < 0 || tankIndex >= static_cast<int>(tankerShip->getTanks().size())) {
+        throw std::invalid_argument("Invalid tank index");
+    }
+
+    if (tokens.size() == 5) {
+        double volume = std::stod(tokens[4]);
+        tankerShip->emptyTank(tankIndex, volume);
+    }
+    else {
+        tankerShip->emptyTank(tankIndex);
+    }
 }
 
 Ship* FleetManager::findShipByIMO(const std::string& imo) const

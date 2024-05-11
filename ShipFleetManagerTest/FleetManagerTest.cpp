@@ -169,3 +169,18 @@ TEST(FleetManagerTest, RefuelShipNotFound) {
 // Test Case 19: Invalid Ship Type TODO
 
 // Test Case 20: Tank Not Found TODO
+
+////////////
+// EmptyTank
+
+// Test Case 21: Empty Valid Tank TODO
+
+// Test Case 22: Ship Not Found
+TEST(FleetManagerTest, EmptyShipNotFound) {
+    FleetManager shipowner;
+    EXPECT_THROW(shipowner.handleCommand({ "empty", "IMO", "9321483", "1", "500" }), std::invalid_argument);
+}
+
+// Test Case 23: Invalid Ship Type TODO
+
+// Test Case 24: Tank Not Found TODO
