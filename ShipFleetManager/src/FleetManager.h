@@ -7,6 +7,9 @@
 #include <unordered_map>
 #include <string>
 #include <vector>
+#include <iostream>
+#include <stdexcept>
+#include <sstream>
 
 // Enum for user commands
 enum class CommandType {
@@ -24,10 +27,13 @@ public:
 
     // Command interface method
     void handleCommand(const std::vector<std::string>& tokens);
+    void showHelp();
 
 private:
     std::unordered_map<std::string, Ship*> fleet;
+    std::unordered_map<std::string, CommandType> commandMap;
 
+    void initializeCommands();
     // Command handlers
     void addShip(const std::vector<std::string>& tokens);
     void updatePosition(const std::vector<std::string>& tokens);
@@ -37,9 +43,9 @@ private:
     void emptyTank(const std::vector<std::string>& tokens);
 
     // Helper methods
-    bool validateIMO(const std::string& imo) const;
-    Ship* findShipByIMO(const std::string& imo) const;
-    bool validateArguments(const std::vector<std::string>& tokens, size_t expectedArgCount) const;
+    //bool validateIMO(const std::string& imo) const;
+    //Ship* findShipByIMO(const std::string& imo) const;
+    //bool validateArguments(const std::vector<std::string>& tokens, size_t expectedArgCount) const;
 };
 
 #endif // FLEETMANAGER_H
