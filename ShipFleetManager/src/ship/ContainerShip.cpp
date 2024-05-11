@@ -21,12 +21,10 @@ ContainerShip::ContainerShip(
 // Load container
 void ContainerShip::loadContainer(const Container& container) {
     if (containers.size() >= maxContainers) {
-        std::cerr << "Cannot load container: Max containers reached" << std::endl;
-        return;
+        throw std::invalid_argument("Cannot load container: Max containers reached");
     }
     if (currentWeight + container.getWeight() > maxWeight) {
-        std::cerr << "Cannot load container: Max weight exceeded" << std::endl;
-        return;
+        throw std::invalid_argument("Cannot load container: Max weight exceeded");
     }
 
     containers.push_back(container);
@@ -37,8 +35,7 @@ void ContainerShip::loadContainer(const Container& container) {
 // Unload container
 void ContainerShip::unloadContainer(int containerID) {
     if (containerID < 1 || containerID > containers.size()) {
-        std::cerr << "Invalid container ID" << std::endl;
-        return;
+        throw std::invalid_argument("Invalid container ID");
     }
 
     currentWeight -= containers[containerID - 1].getWeight();
