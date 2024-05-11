@@ -54,7 +54,7 @@ void FleetManager::showHelp()
     std::cout << "      - Load a container onto a ContainerShip\n";
     std::cout << "  unload <IMO> <IMO7digitnumber> <containerID>\n";
     std::cout << "      - Unload a container from a ContainerShip\n";
-    std::cout << "  refuel <IMO> <IMO7digitnumber> <tankIndex> <fuelType> [<volume>]\n";
+    std::cout << "  refuel <IMO> <IMO7digitnumber> <tankIndex> [<volume>]\n";
     std::cout << "      - Refuel a tank on a TankerShip, optionally specifying volume\n";
     std::cout << "  empty <IMO> <IMO7digitnumber> <tankIndex> [<volume>]\n";
     std::cout << "      - Empty a tank on a TankerShip, optionally specifying volume to remove\n";
@@ -143,13 +143,13 @@ void FleetManager::addShip(const std::vector<std::string>& tokens)
 void FleetManager::updatePosition(const std::vector<std::string>& tokens)
 {
     if (tokens.size() != 5) {
-        throw std::invalid_argument("Invalid number of arguments for updating ship position.");
+        throw std::invalid_argument("Invalid number of arguments for updating ship position");
     }
 
     const std::string& imoPrefix = tokens[1];
     const std::string& imoNumber = tokens[2];
     if (imoPrefix != "IMO" || imoNumber.length() != 7) {
-        throw std::invalid_argument("Invalid IMO number format.");
+        throw std::invalid_argument("Invalid IMO number format");
     }
 
     std::string imo = imoPrefix + " " + imoNumber;
@@ -167,7 +167,7 @@ void FleetManager::updatePosition(const std::vector<std::string>& tokens)
 
     Ship* ship = findShipByIMO(imo);
     if (!ship) {
-        throw std::invalid_argument("No ship found with the given IMO number.");
+        throw std::invalid_argument("No ship found with the given IMO number");
     }
 
     ship->updatePosition({ latitude, longitude });
@@ -178,25 +178,25 @@ void FleetManager::loadContainer(const std::vector<std::string>& tokens)
 {
     // Expecting 7 tokens: command, "IMO", IMO7digitnumber, sender, addressee, description, weight
     if (tokens.size() != 7) {
-        throw std::invalid_argument("Invalid number of arguments for loading a container.");
+        throw std::invalid_argument("Invalid number of arguments for loading a container");
     }
 
     const std::string& imoPrefix = tokens[1];
     const std::string& imoNumber = tokens[2];
     if (imoPrefix != "IMO" || imoNumber.length() != 7) {
-        throw std::invalid_argument("Invalid IMO number format.");
+        throw std::invalid_argument("Invalid IMO number format");
     }
 
     std::string imo = imoPrefix + " " + imoNumber;
 
     Ship* ship = findShipByIMO(imo);
     if (!ship) {
-        throw std::invalid_argument("No ship found with the given IMO number.");
+        throw std::invalid_argument("No ship found with the given IMO number");
     }
 
     ContainerShip* containerShip = dynamic_cast<ContainerShip*>(ship);
     if (!containerShip) {
-        throw std::invalid_argument("The ship with the given IMO number is not a container ship.");
+        throw std::invalid_argument("The ship with the given IMO number is not a container ship");
     }
 
     double weight;
@@ -204,7 +204,7 @@ void FleetManager::loadContainer(const std::vector<std::string>& tokens)
         weight = std::stod(tokens[6]);
     }
     catch (const std::exception& e) {
-        throw std::invalid_argument("Invalid weight value. Weight must be a numeric value.");
+        throw std::invalid_argument("Invalid weight value. Weight must be a numeric value");
     }
 
     Container container(tokens[3], tokens[4], tokens[5], weight);
@@ -215,25 +215,25 @@ void FleetManager::unloadContainer(const std::vector<std::string>& tokens)
 {
     // Expecting 4 tokens: command, "IMO", IMO7digitnumber, containerID
     if (tokens.size() != 4) {
-        throw std::invalid_argument("Invalid number of arguments for unloading a container.");
+        throw std::invalid_argument("Invalid number of arguments for unloading a container");
     }
 
     const std::string& imoPrefix = tokens[1];
     const std::string& imoNumber = tokens[2];
     if (imoPrefix != "IMO" || imoNumber.length() != 7) {
-        throw std::invalid_argument("Invalid IMO number format.");
+        throw std::invalid_argument("Invalid IMO number format");
     }
 
     std::string imo = imoPrefix + " " + imoNumber;
 
     Ship* ship = findShipByIMO(imo);
     if (!ship) {
-        throw std::invalid_argument("No ship found with the given IMO number.");
+        throw std::invalid_argument("No ship found with the given IMO number");
     }
 
     ContainerShip* containerShip = dynamic_cast<ContainerShip*>(ship);
     if (!containerShip) {
-        throw std::invalid_argument("The ship with the given IMO number is not a container ship.");
+        throw std::invalid_argument("The ship with the given IMO number is not a container ship");
     }
 
     int containerID;
@@ -241,7 +241,7 @@ void FleetManager::unloadContainer(const std::vector<std::string>& tokens)
         containerID = std::stoi(tokens[3]);
     }
     catch (const std::exception& e) {
-        throw std::invalid_argument("Container ID must be a numeric value.");
+        throw std::invalid_argument("Container ID must be a numeric value");
     }
 
     containerShip->unloadContainer(containerID);
