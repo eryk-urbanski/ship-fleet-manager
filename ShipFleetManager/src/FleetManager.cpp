@@ -92,13 +92,13 @@ void FleetManager::showFleet() const
                 << "Current Weight: " << ts->getCurrentWeight() << " tons\n"
                 << "Tanks:\n";
             for (const auto& tank : ts->getTanks()) {
-                std::cout << "  - Fuel Type: " << tank.getFuelType()
-                    << ", Capacity: " << tank.getCapacity() << " liters"
-                    << ", Current Volume: " << tank.getCurrentVolume() << " liters\n";
+                std::cout << "  - Fuel Type: " << fuelTypeToString(tank.getFuelType())
+                    << ", Capacity: " << tank.getCapacity() << " litres"
+                    << ", Current Volume: " << tank.getCurrentVolume() << " litres\n";
             }
         }
 
-        std::cout << std::endl;
+        std::cout << "\n";
     }
 }
 
@@ -143,7 +143,7 @@ void FleetManager::addShip(const std::vector<std::string>& tokens)
 
         auto ship = new ContainerShip(imo, name, length, width, maxContainers, maxWeight);
         fleet[imo] = ship;
-        std::cout << "ContainerShip added successfully" << std::endl;
+        std::cout << "ContainerShip added successfully\n";
     }
     else if (type == "TankerShip") {
         if (tokens.size() != 10) {
@@ -179,7 +179,7 @@ void FleetManager::addShip(const std::vector<std::string>& tokens)
 
         auto ship = new TankerShip(imo, name, length, width, numDieselTanks, dieselCapacities, numHeavyFuelTanks, heavyFuelCapacities, maxWeight);
         fleet[imo] = ship;
-        std::cout << "TankerShip added successfully" << std::endl;
+        std::cout << "TankerShip added successfully\n";
     }
     else {
         throw std::invalid_argument("Invalid ship type");
@@ -318,8 +318,8 @@ void FleetManager::refuelTank(const std::vector<std::string>& tokens)
         throw std::invalid_argument("The ship with the given IMO number is not a tanker ship");
     }
 
-    int tankIndex = std::stoi(tokens[3]) - 1;
-    if (tankIndex < 0 || tankIndex >= static_cast<int>(tankerShip->getTanks().size())) {
+    int tankIndex = std::stoi(tokens[3]);
+    if (tankIndex < 1 || tankIndex > static_cast<int>(tankerShip->getTanks().size())) {
         throw std::invalid_argument("Invalid tank index");
     }
 

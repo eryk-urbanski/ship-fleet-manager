@@ -66,7 +66,7 @@ void TankerShip::refuelTank(int tankID, double volume) {
 
     tank.setCurrentVolume(tank.getCurrentVolume() + volume);
     currentWeight += (volume * fuelDensity.at(fuelType)) / 1000;
-    std::cout << "Tank " << tankID << " refueled with " << volume << " liters of " << fuelType << std::endl;
+    std::cout << "Tank " << tankID << " refueled with " << volume << " liters of " << fuelTypeToString(fuelType) << std::endl;
 }
 
 void TankerShip::emptyTank(int tankID) {
