@@ -249,7 +249,7 @@ void FleetManager::unloadContainer(const std::vector<std::string>& tokens)
 
 void FleetManager::refuelTank(const std::vector<std::string>& tokens)
 {
-    // Expecting 5 or 6 tokens: command, "IMO", IMO7digitnumber, tankID, volume (optional)
+    // Expecting 4 or 5 tokens: command, "IMO", IMO7digitnumber, tankID, volume (optional)
     if (tokens.size() != 4 && tokens.size() != 5) {
         throw std::invalid_argument("Invalid number of arguments for refueling a tank");
     }
@@ -278,7 +278,7 @@ void FleetManager::refuelTank(const std::vector<std::string>& tokens)
     }
 
     if (tokens.size() == 5) {
-        double volume = std::stod(tokens[5]);
+        double volume = std::stod(tokens[4]);
         tankerShip->refuelTank(tankIndex, volume);
     }
     else {
