@@ -157,20 +157,24 @@ void FleetManager::addShip(const std::vector<std::string>& tokens)
         std::vector<double> dieselCapacities;
         std::vector<double> heavyFuelCapacities;
 
-        std::cout << "Enter capacities for each Diesel tank:" << std::endl;
-        for (int i = 0; i < numDieselTanks; ++i) {
-            double capacity;
-            std::cout << "Diesel tank " << (i + 1) << ": ";
-            std::cin >> capacity;
-            dieselCapacities.push_back(capacity);
+        if (numDieselTanks > 0) {
+            std::cout << "Enter capacities for each Diesel tank:" << std::endl;
+            for (int i = 0; i < numDieselTanks; ++i) {
+                double capacity;
+                std::cout << "Diesel tank " << (i + 1) << ": ";
+                std::cin >> capacity;
+                dieselCapacities.push_back(capacity);
+            }
         }
-
-        std::cout << "Enter capacities for each Heavy Fuel tank:" << std::endl;
-        for (int i = 0; i < numHeavyFuelTanks; ++i) {
-            double capacity;
-            std::cout << "Heavy Fuel tank " << (i + 1) << ": ";
-            std::cin >> capacity;
-            heavyFuelCapacities.push_back(capacity);
+        
+        if (numHeavyFuelTanks > 0) {
+            std::cout << "Enter capacities for each Heavy Fuel tank:" << std::endl;
+            for (int i = 0; i < numHeavyFuelTanks; ++i) {
+                double capacity;
+                std::cout << "Heavy Fuel tank " << (i + 1) << ": ";
+                std::cin >> capacity;
+                heavyFuelCapacities.push_back(capacity);
+            }
         }
 
         auto ship = new TankerShip(imo, name, length, width, numDieselTanks, dieselCapacities, numHeavyFuelTanks, heavyFuelCapacities, maxWeight);
