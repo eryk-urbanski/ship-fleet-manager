@@ -5,6 +5,7 @@
 
 #include <string>
 #include <vector>
+#include <stdexcept>
 #include "../utils/Position.h"
 
 class Ship {
@@ -24,6 +25,12 @@ public:
     double getLength() const { return length; };
     double getWidth() const { return width; };
     std::vector<Position> getPositionHistory() const { return positionHistory; };
+    Position getCurrentPosition() const {
+        if (!positionHistory.empty()) {
+            return positionHistory.back();
+        }
+        throw std::runtime_error("No position history available");
+    }
 
 protected:
     std::string imoNumber;
