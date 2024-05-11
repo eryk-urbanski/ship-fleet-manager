@@ -19,10 +19,10 @@ Ship::Ship(const std::string& imo, const std::string& name, double length, doubl
 // Update Position
 void Ship::updatePosition(const Position& position) {
     if (position.latitude < -90 || position.latitude > 90) {
-        throw std::invalid_argument("Invalid latitude, should be within the <-90, 90> range");
+        throw std::out_of_range("Invalid latitude, should be within the <-90, 90> range");
     }
     if (position.longitude < -180 || position.longitude > 180) {
-        throw std::invalid_argument("Invalid longitude, should be within the <-180, 180> range");
+        throw std::out_of_range("Invalid longitude, should be within the <-180, 180> range");
     }
     positionHistory.push_back(position);
 }
