@@ -61,7 +61,6 @@ void TankerShip::refuelTank(int tankID, double volume) {
         throw std::invalid_argument("Exceeds ship's maximum total weight");
     }
 
-    Tank& tank = tanks[tankID - 1];
     tank.setCurrentVolume(tank.getCurrentVolume() + volume);
     currentWeight += volume * fuelDensity.at(fuelType);
     std::cout << "Tank " << tankID << " refueled with " << volume << " liters of " << fuelType << std::endl;
