@@ -31,7 +31,7 @@ void ContainerShip::loadContainer(const Container& container) {
 
     containers.push_back(container);
     currentWeight += container.getWeight();
-    std::cout << "Successfully loaded container with ID: " << containers.size() << std::endl;
+    std::cout << "Successfully loaded container with ID: " << containers.size() << " onto ship " << imoNumber << std::endl;
 }
 
 // Unload container
