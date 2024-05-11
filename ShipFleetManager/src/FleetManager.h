@@ -29,6 +29,8 @@ public:
     void handleCommand(const std::vector<std::string>& tokens);
     void showHelp();
 
+    Ship* findShipByIMO(const std::string& imo) const;
+
 private:
     std::unordered_map<std::string, Ship*> fleet;
     std::unordered_map<std::string, CommandType> commandMap;
@@ -44,7 +46,6 @@ private:
 
     // Helper methods
     //bool validateIMO(const std::string& imo) const;
-    //Ship* findShipByIMO(const std::string& imo) const;
     //bool validateArguments(const std::vector<std::string>& tokens, size_t expectedArgCount) const;
 };
 

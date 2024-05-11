@@ -168,4 +168,13 @@ void FleetManager::emptyTank(const std::vector<std::string>& tokens)
 {
 }
 
+Ship* FleetManager::findShipByIMO(const std::string& imo) const
+{
+    auto it = fleet.find(imo);
+    if (it != fleet.end()) {
+        return it->second;
+    }
+    return nullptr;
+}
+
 
