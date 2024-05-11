@@ -53,7 +53,7 @@ TEST(TankerShipTest, ValidRefuel) {
     std::string name = "Emma Maersk";
     TankerShip ship(imo, name, 397.0, 56.0, 1, { 1000.0 }, 1, { 2000.0 }, 156907.0);
 
-    ship.refuelTank(1, DIESEL, 500.0);
+    ship.refuelTank(1, 500.0);
     EXPECT_DOUBLE_EQ(500.0 * fuelDensity.at(DIESEL), ship.getCurrentWeight());
 }
 
@@ -63,7 +63,7 @@ TEST(TankerShipTest, RefuelWrongTankID) {
     std::string name = "Emma Maersk";
     TankerShip ship(imo, name, 397.0, 56.0, 1, { 1000.0 }, 1, { 2000.0 }, 156907.0);
 
-    EXPECT_THROW(ship.refuelTank(3, DIESEL, 100.0), std::invalid_argument);
+    EXPECT_THROW(ship.refuelTank(3, 100.0), std::invalid_argument);
 }
 
 // Test Case 5: Exceed Max Weight
@@ -72,7 +72,7 @@ TEST(TankerShipTest, ExceedMaxWeight) {
     std::string name = "Emma Maersk";
     TankerShip ship(imo, name, 397.0, 56.0, 1, { 1000.0 }, 1, { 2000.0 }, 156907.0);
 
-    EXPECT_THROW(ship.refuelTank(1, DIESEL, 6000.0), std::invalid_argument);
+    EXPECT_THROW(ship.refuelTank(1, 6000.0), std::invalid_argument);
 }
 
 // Test Case 6: Valid Empty Tank
@@ -81,7 +81,7 @@ TEST(TankerShipTest, ValidEmptyTank) {
     std::string name = "Emma Maersk";
     TankerShip ship(imo, name, 397.0, 56.0, 1, { 1000.0 }, 1, { 2000.0 }, 156907.0);
 
-    ship.refuelTank(1, DIESEL, 500.0);
+    ship.refuelTank(1, 500.0);
     ship.emptyTank(1);
     EXPECT_DOUBLE_EQ(0.0, ship.getCurrentWeight());
 }
@@ -92,6 +92,6 @@ TEST(TankerShipTest, EmptyInvalidTankID) {
     std::string name = "Emma Maersk";
     TankerShip ship(imo, name, 397.0, 56.0, 1, { 1000.0 }, 1, { 2000.0 }, 156907.0);
 
-    ship.refuelTank(1, DIESEL, 500.0);
+    ship.refuelTank(1, 500.0);
     EXPECT_THROW(ship.emptyTank(3), std::invalid_argument);
 }
