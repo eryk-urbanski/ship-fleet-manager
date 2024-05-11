@@ -154,3 +154,18 @@ TEST(FleetManagerTest, ContainerNotFound) {
     shipowner.handleCommand(tokens);
     EXPECT_THROW(shipowner.handleCommand({ "unload", "IMO", "1234567", "3" }), std::invalid_argument);
 }
+
+/////////////
+// RefuelTank
+
+// Test Case 17: Refuel Valid Tank TODO
+
+// Test Case 18: Ship Not Found
+TEST(FleetManagerTest, RefuelShipNotFound) {
+    FleetManager shipowner;
+    EXPECT_THROW(shipowner.handleCommand({ "refuel", "IMO", "9321483", "1", "500" }), std::invalid_argument);
+}
+
+// Test Case 19: Invalid Ship Type TODO
+
+// Test Case 20: Tank Not Found TODO
