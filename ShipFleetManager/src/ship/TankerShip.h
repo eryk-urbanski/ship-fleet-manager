@@ -24,8 +24,8 @@ public:
 		double maxWeight);
 
 	// Refuel tank
-	void refuelTank(int tankID, FuelType fuelType);
-	void refuelTank(int tankID, FuelType fuelType, double volume);
+	void refuelTank(int tankID);
+	void refuelTank(int tankID, double volume);
 
 	// Empty tank
 	void emptyTank(int tankID);

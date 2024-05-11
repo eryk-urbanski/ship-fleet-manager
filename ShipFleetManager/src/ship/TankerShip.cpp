@@ -45,16 +45,18 @@ TankerShip::TankerShip(
         << numDieselTanks + numHeavyFuelTanks << " successfully created." << std::endl;
 }
 
-void TankerShip::refuelTank(int tankID, FuelType fuelType) {
+void TankerShip::refuelTank(int tankID) {
     verifyTankID(tankID);
 
     Tank& tank = tanks[tankID - 1];
     double refillAmount = tank.getCapacity() - tank.getCurrentVolume();
-    refuelTank(tankID, fuelType, refillAmount);
+    refuelTank(tankID, refillAmount);
 }
 
-void TankerShip::refuelTank(int tankID, FuelType fuelType, double volume) {
+void TankerShip::refuelTank(int tankID, double volume) {
     verifyTankID(tankID);
+    Tank& tank = tanks[tankID - 1];
+    FuelType fuelType = tank.getFuelType();
     if (currentWeight + volume * fuelDensity.at(fuelType) > maxWeight) {
         throw std::invalid_argument("Exceeds ship's maximum total weight");
     }
