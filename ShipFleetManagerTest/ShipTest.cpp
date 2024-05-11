@@ -75,8 +75,8 @@ TEST(ShipTest, InvalidPositionUpdate) {
     Ship ship(imo, name, length, width);
 
     Position invalidLat = { 100.0, 56.78, time(nullptr) };
-    EXPECT_THROW(ship.updatePosition(invalidLat), std::invalid_argument);
+    EXPECT_THROW(ship.updatePosition(invalidLat), std::out_of_range);
 
     Position invalidLon = { 12.34, 200.0, time(nullptr) };
-    EXPECT_THROW(ship.updatePosition(invalidLon), std::invalid_argument);
+    EXPECT_THROW(ship.updatePosition(invalidLon), std::out_of_range);
 }
