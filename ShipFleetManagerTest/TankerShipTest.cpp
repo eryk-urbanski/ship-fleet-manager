@@ -54,7 +54,7 @@ TEST(TankerShipTest, ValidRefuel) {
     TankerShip ship(imo, name, 397.0, 56.0, 1, { 1000.0 }, 1, { 2000.0 }, 156907.0);
 
     ship.refuelTank(1, 500.0);
-    EXPECT_DOUBLE_EQ(500.0 * fuelDensity.at(DIESEL), ship.getCurrentWeight());
+    EXPECT_DOUBLE_EQ((500.0 * fuelDensity.at(DIESEL))/1000, ship.getCurrentWeight());
 }
 
 // Test Case 4: Refuel Wrong Tank ID
@@ -66,8 +66,8 @@ TEST(TankerShipTest, RefuelWrongTankID) {
     EXPECT_THROW(ship.refuelTank(3, 100.0), std::invalid_argument);
 }
 
-// Test Case 5: Exceed Max Weight
-TEST(TankerShipTest, ExceedMaxWeight) {
+// Test Case 5: Exceed Max Capacity
+TEST(TankerShipTest, ExceedMaxCapacity) {
     std::string imo = "IMO 9321483";
     std::string name = "Emma Maersk";
     TankerShip ship(imo, name, 397.0, 56.0, 1, { 1000.0 }, 1, { 2000.0 }, 156907.0);

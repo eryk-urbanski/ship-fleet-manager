@@ -40,9 +40,12 @@ TankerShip::TankerShip(
         tanks.emplace_back(capacity, HEAVY_FUEL);
     }
 
-    std::cout << "Diesel tanks 1 to " << numDieselTanks
-        << " and Heavy fuel tanks " << numDieselTanks + 1 << " to "
-        << numDieselTanks + numHeavyFuelTanks << " successfully created." << std::endl;
+    if (numDieselTanks > 0) {
+        std::cout << "Diesel tanks have IDs in range: <1, " << numDieselTanks << ">" << std::endl;
+    }
+    if (numHeavyFuelTanks > 0) {
+        std::cout << "Heavy fuel tanks have IDs in range: <" << numDieselTanks + 1 << ", " << numDieselTanks + numHeavyFuelTanks << ">" << std::endl;
+    }
 }
 
 void TankerShip::refuelTank(int tankID) {
@@ -57,12 +60,12 @@ void TankerShip::refuelTank(int tankID, double volume) {
     verifyTankID(tankID);
     Tank& tank = tanks[tankID - 1];
     FuelType fuelType = tank.getFuelType();
-    if (currentWeight + volume * fuelDensity.at(fuelType) > maxWeight) {
+    if (currentWeight + (volume * fuelDensity.at(fuelType)) / 1000 > maxWeight) {
         throw std::invalid_argument("Exceeds ship's maximum total weight");
     }
 
     tank.setCurrentVolume(tank.getCurrentVolume() + volume);
-    currentWeight += volume * fuelDensity.at(fuelType);
+    currentWeight += (volume * fuelDensity.at(fuelType)) / 1000;
     std::cout << "Tank " << tankID << " refueled with " << volume << " liters of " << fuelType << std::endl;
 }
 
@@ -82,7 +85,7 @@ void TankerShip::emptyTank(int tankID, double volume) {
 
     Tank& tank = tanks[tankID - 1];
     tank.setCurrentVolume(tank.getCurrentVolume() - volume);
-    currentWeight -= volume * fuelDensity.at(tank.getFuelType());
+    currentWeight -= (volume * fuelDensity.at(tank.getFuelType())) / 1000;
     std::cout << "Tank " << tankID << " emptied to " << tank.getCurrentVolume() << " litres" << std::endl;
 }
 
